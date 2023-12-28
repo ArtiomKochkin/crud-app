@@ -4,6 +4,7 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
+import * as bodyParser from 'body-parser';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -40,13 +41,47 @@ export function app(): express.Express {
       .catch((err) => next(err));
   });
 
+  server.use(bodyParser.json());
+
+  // Роуты CRUD
+  server.post('/api/user', (req, res) => {
+    // Операция и логика создания пользователя
+    const newUser = req.body;
+    res.json(newUser);
+  });
+
+  server.get('/api/user', (req, res) => {
+    // Операция и логика чтения всех пользователей
+    const users = [{ /* данные пользователя */ }];
+    res.json(users);
+  });
+
+  server.get('/api/user/:id', (req, res) => {
+    // Операция и логика чтения конкретного пользователя по id
+    const userId = req.params.id;
+    const user = { /* данные пользователя */ };
+    res.json(user);
+  });
+
+  server.put('/api/user/:id', (req, res) => {
+    // Операция и логика обновления пользователя
+    const userId = req.params.id;
+    const updatedUserData = req.body;
+    const updatedUser = { /* обновленные данные пользователя */ };
+    res.json(updatedUser);
+  });
+
+  server.delete('/api/user/:id', (req, res) => {
+    // Операция и логика удаления пользователя
+    const userId = req.params.id;
+    res.json({ success: true });
+  });
+
   return server;
 }
 
 function run(): void {
   const port = process.env['PORT'] || 4000;
-
-  // Start up the Node server
   const server = app();
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);

@@ -1,0 +1,47 @@
+<app-user-table></app-user-table>
+<table>
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.firstname }}</td>
+          <td>{{ user.lastname }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.age }}</td>
+          <td>{{ user.gender }}</td>
+          <td>
+            <button (click)="editUser(user)">Edit</button>
+            <button (click)="deleteUser(user._id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+</table>
+
+<div *ngIf="editingUser">
+    <form (submit)="saveUser()">
+      <label>First name: </label>
+      <input [(ngModel)]="editingUser.firstname" name="firstname" />
+
+      <label>Last name: </label>
+      <input [(ngModel)]="editingUser.lastname" name="lastname" />
+      
+      <label>Email: </label>
+      <input [(ngModel)]="editingUser.email" name="email" />
+
+      <label>Age: </label>
+      <input [(ngModel)]="editingUser.age" name="age" />
+
+      <label>Gender: </label>
+      <input [(ngModel)]="editingUser.gender" name="gender" />
+  
+      <button type="submit">Save</button>
+    </form>
+  </div>
